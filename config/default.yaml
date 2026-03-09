@@ -1,0 +1,63 @@
+# TEMForge Configuration
+# All physics, paths, and pipeline toggles. SLURM settings stay in run_pipeline.sh.
+
+project:
+  data_root: /global/cfs/cdirs/m1090/dongin/cuau_fcc_data
+  data_root_var: /global/cfs/cdirs/m1090/dongin/cuau_fcc_data_var
+  work_root: /pscratch/sd/d/dongin/temforge_work   # LAMMPS scratch directory
+
+pipeline:
+  original:
+    enabled: true
+  variant:
+    enabled: true
+
+samples:
+  base_seed: 0
+
+structure:
+  base_cif: structures/CuAu3_Pm-3m.cif
+  supercell: [10, 10, 10]
+  sim_cell_nm: [5.0, 5.0, 10.0]
+  species_a: Au
+  species_b: Cu
+
+variant:
+  roi_nm: [1.5, 1.5, 5.0]
+
+relax:
+  kim_model: EAM_Dynamo_GolaPastewka_2018_CuAu__MO_426403318662_000
+  relax_cell: false
+  vmax: 0.001
+  min_style: cg
+  etol: 1.0e-10
+  ftol: 1.0e-10
+  maxiter: 20000
+  maxeval: 200000
+  lmp_command: lmp
+
+roi:
+  roi_nm: [1.5, 1.5, 5.0]
+  min_atoms: 1
+
+dp:
+  tilt_axis: "y"
+  tilt_min_deg: -7.0
+  tilt_max_deg: 7.0
+  tilt_step_deg: 1.0
+  energy_eV: 300000
+  conv_angles_mrad: [2.0]
+  conv_angle_tags:
+    2.0: "2"
+  max_angle_mrad: 80.0
+  L_sim_xy_nm: 5.0
+  L_sim_z_nm: 10.0
+  slice_thickness_A: 2.0
+  potential_sampling_A: 0.04
+  probe_sampling_A: 0.2
+  parametrization: kirkland
+  n_frozen: 16
+  sigmas_A: 0.1
+  seed: 0
+  zarr_dataset_name: dp
+  overwrite: true

@@ -1,0 +1,8 @@
+numpy
+pymatgen
+ase
+abtem
+zarr
+numcodecs
+pyyaml
+mp-api
