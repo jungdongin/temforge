@@ -22,7 +22,6 @@ import subprocess
 from pathlib import Path
 from typing import List
 
-import yaml
 from ase.io import read, write
 from ase.io.lammpsdata import write_lammps_data
 
@@ -201,7 +200,7 @@ def relax_one(cif_in, cif_out, meta_path, run_dir, relax_cfg, nproc, launcher):
     if not meta_path.exists():
         raise RuntimeError(f"missing meta: {meta_path}")
 
-    overwrite = bool(int(os.environ.get("OVERWRITE_RELAX", "0")))
+    overwrite = relax_cfg.get("overwrite", False)
     if cif_out.exists() and not overwrite:
         print(f"[relax] SKIP already relaxed: {cif_out}")
         return
@@ -344,6 +343,8 @@ def run(cfg, idx, pipeline):
 
 
 def main():
+    import yaml
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", required=True)
     ap.add_argument("--idx", type=int, required=True)

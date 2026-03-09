@@ -8,9 +8,9 @@ project:
 
 pipeline:
   original:
-    enabled: false
-  variant:
     enabled: true
+  variant:
+    enabled: false
 
 samples:
   base_seed: 0
@@ -36,6 +36,7 @@ relax:
   maxiter: 20000
   maxeval: 200000
   lmp_command: lmp
+  overwrite: true
 
 roi:
   roi_nm: [1.5, 1.5, 5.0]

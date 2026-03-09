@@ -12,13 +12,17 @@ enabled and calls the appropriate stage scripts.
 """
 
 import argparse
+import json
 import sys
 import os
 
-import yaml
-
 
 def load_config(config_path):
+    """Load config from YAML or JSON (fallback if pyyaml not installed)."""
+    if config_path.endswith(".json"):
+        with open(config_path) as f:
+            return json.load(f)
+    import yaml
     with open(config_path) as f:
         return yaml.safe_load(f)
 
@@ -87,12 +91,14 @@ def main():
 
     cfg = load_config(args.config)
 
-    # Set TEMFORGE_ROOT so scripts can resolve relative paths
-    project_root = os.path.dirname(os.path.abspath(args.config))
-    # If config is in config/ subdirectory, go up one level
-    if os.path.basename(project_root) == "config":
-        project_root = os.path.dirname(project_root)
-    os.environ["TEMFORGE_ROOT"] = project_root
+    # Set TEMFORGE_ROOT so scripts can resolve relative paths.
+    # Prefer env var (set by run_pipeline.sh), fall back to config path.
+    project_root = os.environ.get("TEMFORGE_ROOT")
+    if not project_root:
+        project_root = os.path.dirname(os.path.abspath(args.config))
+        if os.path.basename(project_root) == "config":
+            project_root = os.path.dirname(project_root)
+        os.environ["TEMFORGE_ROOT"] = project_root
 
     # Add project root to Python path so temforge package is importable
     if project_root not in sys.path:

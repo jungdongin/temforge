@@ -119,7 +119,8 @@ def run(cfg, idx, pipeline):
     )
 
     conv_angles = dp_cfg["conv_angles_mrad"]
-    tag_map = dp_cfg["conv_angle_tags"]
+    # Normalize tag_map keys to strings (YAML has float keys, JSON roundtrip makes them strings)
+    tag_map = {str(k): v for k, v in dp_cfg["conv_angle_tags"].items()}
     overwrite = dp_cfg["overwrite"]
 
     # Load meta
@@ -137,7 +138,7 @@ def run(cfg, idx, pipeline):
             dp_list.append(simulate_dp_onepos(atoms_sim, t, dp_cfg, ca))
         stack = np.stack(dp_list)
 
-        tag = tag_map[ca]
+        tag = tag_map.get(str(ca), str(ca))
         out_store = str(folder / f"{prefix}_dp_convAngle_{tag}")
 
         if os.path.exists(out_store) and overwrite:
