@@ -22,8 +22,8 @@
 set -euo pipefail
 
 # ================== EDIT THESE ==================
-START=${START:-1}
-END=${END:-4000}
+START=${START:-4001}
+END=${END:-8000}
 CONFIG=${CONFIG:-config/default.yaml}
 THROTTLE=${THROTTLE:-500}
 

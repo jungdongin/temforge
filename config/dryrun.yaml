@@ -1,14 +1,13 @@
-# TEMForge Configuration
-# All physics, paths, and pipeline toggles. SLURM settings stay in run_pipeline.sh.
+# TEMForge Dry Run Config — uses /tmp directories, does NOT touch real data
 
 project:
-  data_root: /global/cfs/cdirs/m1090/dongin/cuau_fcc_101010_data
-  data_root_var: /global/cfs/cdirs/m1090/dongin/cuau_fcc_101010_data_var
-  work_root: /pscratch/sd/d/dongin/temforge_work   # LAMMPS scratch directory
+  data_root: /tmp/temforge_dryrun/data_orig
+  data_root_var: /tmp/temforge_dryrun/data_var
+  work_root: /tmp/temforge_dryrun/work
 
 pipeline:
   original:
-    enabled: false
+    enabled: true
   variant:
     enabled: true
 
@@ -27,7 +26,7 @@ variant:
 
 relax:
   kim_model: EAM_Dynamo_GolaPastewka_2018_CuAu__MO_426403318662_000
-  potential_dir: potentials   # directory containing KIM model subdirectories
+  potential_dir: potentials
   relax_cell: false
   vmax: 0.001
   min_style: cg
